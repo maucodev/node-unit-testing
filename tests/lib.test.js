@@ -1,6 +1,7 @@
 const { describe, expect, it } = require('@jest/globals');
 const lib                      = require('../lib');
 const db                       = require('../db');
+const mail                     = require('../mail');
 
 describe('absolute', () => {
     it('Should return a positive number if input is positive', () => {
@@ -68,5 +69,19 @@ describe('applyDiscount', () => {
         const order = { customerId: 1, totalPrice: 10 };
         lib.applyDiscount(order);
         expect(order.totalPrice).toBe(9);
+    });
+});
+
+describe('notifyCustomer', () => {
+    it('Should send and email to the customer', () => {
+        db.getCustomerSync = jest.fn().mockReturnValue({ email: 'hola@maucodev.com' });
+
+        mail.send = jest.fn();
+
+        lib.notifyCustomer({ customerId: 1 });
+
+        expect(mail.send).toHaveBeenCalled();
+        expect(mail.send.mock.calls[0][0]).toBe('hola@maucodev.com');
+        expect(mail.send.mock.calls[0][1]).toMatch(/order/);
     });
 });
