@@ -1,5 +1,6 @@
 const { describe, expect, it } = require('@jest/globals');
 const lib                      = require('../lib');
+const db                       = require('../db');
 
 describe('absolute', () => {
     it('Should return a positive number if input is positive', () => {
@@ -54,5 +55,18 @@ describe('registerUser', () => {
         const result = lib.registerUser('maucodev');
         expect(result).toMatchObject({ username: 'maucodev' });
         expect(result.id).toBeGreaterThan(0);
+    });
+});
+
+describe('applyDiscount', () => {
+    it('Should apply 10% discount if customer has more than 10 points', () => {
+        db.getCustomerSync = function (customerId) {
+            console.log('Fake reading customer...');
+            return { id: customerId, points: 25 };
+        }
+
+        const order = { customerId: 1, totalPrice: 10 };
+        lib.applyDiscount(order);
+        expect(order.totalPrice).toBe(9);
     });
 });
