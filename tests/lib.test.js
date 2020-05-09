@@ -25,3 +25,12 @@ describe('greet', () => {
         expect(result).toContain('maucodev');
     });
 });
+
+describe('getCurrencies', () => {
+    it('Should return supported currencies', () => {
+        const result = lib.getCurrencies();
+        expect(result).toContain('USD');
+        expect(result).toContain('AUD');
+        expect(result).toContain('EUR');
+    });
+});
