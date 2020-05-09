@@ -17,3 +17,11 @@ describe('absolute', () => {
         expect(result).toBe(0);
     });
 });
+
+describe('greet', () => {
+    it('Should return the greeting message', () => {
+        const result = lib.greet('maucodev');
+        expect(result).toMatch(/maucodev/);
+        expect(result).toContain('maucodev');
+    });
+});
