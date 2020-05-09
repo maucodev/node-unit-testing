@@ -29,8 +29,6 @@ describe('greet', () => {
 describe('getCurrencies', () => {
     it('Should return supported currencies', () => {
         const result = lib.getCurrencies();
-        expect(result).toContain('USD');
-        expect(result).toContain('AUD');
-        expect(result).toContain('EUR');
+        expect(result).toEqual(expect.arrayContaining(['USD', 'AUD', 'EUR']));
     });
 });
